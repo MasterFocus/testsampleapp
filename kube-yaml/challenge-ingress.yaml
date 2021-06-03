@@ -3,6 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: simpleapp-ingress
+  namespace: prova
 spec:
   rules:
   - host: "app.prova"
