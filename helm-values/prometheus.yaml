@@ -1,13 +1,13 @@
 ---
 alertManager:
   service:
-    type: LoadBalancer
+    type: ClusterIP
   persistentVolume:
     size: 300M
 
 server:
   service:
-    type: LoadBalancer
+    type: ClusterIP
   persistentVolume:
     size: 300M
 

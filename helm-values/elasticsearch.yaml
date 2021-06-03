@@ -25,5 +25,5 @@ volumeClaimTemplate:
 replicas: 1
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
 

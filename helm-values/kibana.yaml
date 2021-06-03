@@ -12,5 +12,5 @@ resources:
     memory: "512M"
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
 
