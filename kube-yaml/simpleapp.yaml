@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: simpleapp
+    environment: exemplo
+  name: simpleapp
+  namespace: prova
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simpleapp
+      environment: exemplo
+  template:
+    metadata:
+      labels:
+        app: simpleapp
+        environment: exemplo
+    spec:
+      containers:
+        - name: simpleapp
+          image: masterfocus/simpleapp:v0.0.1
+          envFrom:
+          - configMapRef:
+              name: simpleapp-cm
+          resources:
+            limits:
+              cpu: 100m # '1'
+              memory: 256Mi # '1Gi
+            requests:
+              cpu: 100m # 250m
+              memory: 256Mi # 512Mi
+          ports:
+            - containerPort: 80
+#          livenessProbe:
+#            httpGet:
+#              path: /health
+#              port: 80
+#              scheme: HTTP
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 2
+#            periodSeconds: 10
+#            successThreshold: 1
+#            failureThreshold: 3
+#          readinessProbe:
+#            httpGet:
+#              path: /health
+#              port: 80
+#              scheme: HTTP
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 2
+#            periodSeconds: 10
+#            successThreshold: 1
+#            failureThreshold: 3
+

@@ -1,0 +1,17 @@
+---
+alertManager:
+  service:
+    type: LoadBalancer
+  persistentVolume:
+    size: 300M
+
+server:
+  service:
+    type: LoadBalancer
+  persistentVolume:
+    size: 300M
+
+pushgateway:
+  persistentVolume:
+    size: 300M
+
