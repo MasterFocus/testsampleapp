@@ -10,19 +10,14 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 minikube start
 
-# "Instalando" o kubectl (a preguiça falou mais alto :P)
-alias kubectl="minikube kubectl --"
-
 # Instalando Helm v3 - https://helm.sh/docs/intro/install/
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 rm -f ./get_helm.sh
 
-###
-# CLEANUP
-# for NS in monitoring logging prova kubernetes-dashboard; do kubectl delete namespace $NS; done; unset NS
-###
+# "Instalando" o kubectl (a preguiça falou mais alto :P)
+alias kubectl="minikube kubectl --"
 
 # Criando os namespaces
 kubectl apply -f kube-yaml/ns.yaml
@@ -58,4 +53,9 @@ helm install prometheus prometheus-community/prometheus --version 14.1.1 --names
 
 sleep 5
 kubectl get pod,service,deployment -A | grep -vP '^(default|kube)'
+
+###
+# CLEANUP - opção "nuclear" de limpeza, caso desejado
+# for NS in monitoring logging prova kubernetes-dashboard; do kubectl delete namespace $NS; done; unset NS
+###
 
