@@ -55,7 +55,7 @@ sleep 5
 kubectl get pod,service,deployment -A | grep -vP '^(default|kube)'
 
 ###
-# CLEANUP - opção "nuclear" de limpeza, caso desejado
+# CLEANUP - opção "nuclear" de limpeza, caso desejado (só não vai apagar o ingress)
 # for NS in monitoring logging prova kubernetes-dashboard; do kubectl delete namespace $NS; done; unset NS
 ###
 
