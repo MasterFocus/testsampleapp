@@ -8,7 +8,10 @@
 # Instalando minikube v1.20.0 on Centos 7.9.2009 , Kubernetes v1.20.2
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+# Iniciando e habilitando ingress
 minikube start
+minikube addons enable ingress
 
 # Instalando Helm v3 - https://helm.sh/docs/intro/install/
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -52,10 +55,10 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace monitoring -f helm-values/prometheus.yaml
 
 sleep 5
-kubectl get pod,service,deployment -A | grep -vP '^(default|kube)'
+kubectl get pod,service,deployment,ingress -A | grep -vP '^(default|kube)'
 
 ###
 # CLEANUP - opção "nuclear" de limpeza, caso desejado
-# for NS in monitoring logging prova kubernetes-dashboard; do kubectl delete namespace $NS; done; unset NS
+# for NS in monitoring logging prova; do kubectl delete namespace $NS; done; unset NS
 ###
 
