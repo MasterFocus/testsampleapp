@@ -11,3 +11,6 @@ resources:
     cpu: "1000m"
     memory: "512M"
 
+elasticsearch:
+   hosts: ["elasticsearch-master:9200"]
+

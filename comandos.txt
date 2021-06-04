@@ -39,7 +39,7 @@ kubectl apply -f kube-yaml/simpleapp.yaml
 kubectl apply -f kube-yaml/simpleapp-svc.yaml
 
 # Criando ingress
-sleep 10
+sleep 30
 kubectl apply -f kube-yaml/challenge-ingress.yaml
 
 # Adicionando hosts em /etc/hosts
@@ -60,10 +60,17 @@ helm repo add kokuwa https://kokuwaio.github.io/helm-charts
 helm install fluentd --version 11.12.0 kokuwa/fluentd-elasticsearch --namespace prova -f helm-values/fluentd.yaml
 
 # Instalando Prometheus 2.26.0 - https://artifacthub.io/packages/helm/prometheus-community/prometheus
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace prova -f helm-values/prometheus.yaml
+#helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+#helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace prova -f helm-values/prometheus.yaml
 
 # Visualizando recursos
-sleep 30
-kubectl get pod,service,deployment,ingress -A | grep -vP '^(default|kube)'
+sleep 90
+kubectl get pod,service,deployment,ingress,daemonset -A | grep -vP '^(default|kube)'
+
+###############################################
+# ANOTAÇÕES
+###############################################
+
+# Sobre Elasticsearch, Fluentd, Kibana: https://coralogix.com/blog/kubernetes-logging-with-elasticsearch-fluentd-and-kibana/
+# No Kibana, usar filtro "kubernetes.container_name: simpleapp" ou "kubernetes.container_name.keyword: simpleapp"
 
