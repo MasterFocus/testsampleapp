@@ -1,6 +1,8 @@
-# Esboço do shell script.
-# Atenção: O arquivo possui algumas anotações e alguns comandos só deveriam ser executados uma vez!
-#          Não excute-o diretamente sem revisá-lo!
+# Esboço do shell script
+
+# Atenção:
+#	O arquivo possui algumas anotações e alguns comandos só deveriam ser executados uma vez!
+#	Não excute-o diretamente sem revisá-lo!
 
 # Pré-requisitos:
 #       Utilizar um usuário sudoer
@@ -24,7 +26,7 @@ rm -f ./get_helm.sh
 # "Instalando" o kubectl (a preguiça falou mais alto :P)
 alias kubectl="minikube kubectl --"
 
-# Criando os namespaces
+# Criando o namespace
 kubectl apply -f kube-yaml/ns.yaml
 
 # Criando configmap
@@ -36,38 +38,32 @@ kubectl apply -f kube-yaml/simpleapp.yaml
 # Criando service
 kubectl apply -f kube-yaml/simpleapp-svc.yaml
 
-# Aguardando um pouco e criando ingress
+# Criando ingress
 sleep 10
 kubectl apply -f kube-yaml/challenge-ingress.yaml
 
-# Adicionando "app.prova" em /etc/hosts
+# Adicionando hosts em /etc/hosts
 echo -e "$(minikube ip)\tapp.prova" | sudo tee -a /etc/hosts
+echo -e "$(minikube ip)\tkibana.prova" | sudo tee -a /etc/hosts
 
 # Adicionando helm repo elastic
 helm repo add elastic https://helm.elastic.co
 
 # Instalando Elasticsearch 7.13.1 - https://artifacthub.io/packages/helm/elastic/elasticsearch
-helm install elasticsearch --version 7.13.1 elastic/elasticsearch --namespace logging -f helm-values/elasticsearch.yaml
+helm install elasticsearch --version 7.13.1 elastic/elasticsearch --namespace prova -f helm-values/elasticsearch.yaml
 
 # Instalando Kibana 7.13.1 - https://artifacthub.io/packages/helm/elastic/kibana
-helm install kibana --version 7.13.1 elastic/kibana --namespace logging -f helm-values/kibana.yaml
+helm install kibana --version 7.13.1 elastic/kibana --namespace prova -f helm-values/kibana.yaml
 
 # Instalando Fluentd 3.2.0 - https://artifacthub.io/packages/helm/kokuwa/fluentd-elasticsearch
 helm repo add kokuwa https://kokuwaio.github.io/helm-charts
-helm install fluentd --version 11.12.0 kokuwa/fluentd-elasticsearch --namespace logging -f helm-values/fluentd.yaml
+helm install fluentd --version 11.12.0 kokuwa/fluentd-elasticsearch --namespace prova -f helm-values/fluentd.yaml
 
 # Instalando Prometheus 2.26.0 - https://artifacthub.io/packages/helm/prometheus-community/prometheus
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace monitoring -f helm-values/prometheus.yaml
+helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace prova -f helm-values/prometheus.yaml
 
 # Visualizando recursos
-sleep 5
+sleep 30
 kubectl get pod,service,deployment,ingress -A | grep -vP '^(default|kube)'
-
-############################
-# ANOTAÇÕES
-############################
-
-# CLEANUP - opção "nuclear" de limpeza, caso desejado
-# $ for NS in monitoring logging prova; do kubectl delete namespace $NS; done; unset NS
 

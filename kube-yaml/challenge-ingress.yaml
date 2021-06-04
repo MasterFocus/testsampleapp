@@ -17,14 +17,14 @@ spec:
             name: simpleapp-svc
             port:
               number: 80
-#  - host: kibana.prova
-#    http:
-#      paths:
-#      - pathType: Prefix
-#        path: /
-#        backend:
-#          service:
-#            name: kibana-kibana
-#            port:
-#              number: 5601
+  - host: kibana.prova
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: kibana-kibana
+            port:
+              number: 5601
 
