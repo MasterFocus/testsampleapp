@@ -3,13 +3,13 @@
 antiAffinity: "soft"
 
 # Allocate smaller chunks of memory per pod.
-#resources:
-#  requests:
-#    cpu: "100m"
-#    memory: "512M"
-#  limits:
-#    cpu: "1000m"
-#    memory: "512M"
+resources:
+  requests:
+    cpu: "125m"
+    memory: "256M"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
 
 service:
   type: ClusterIP
@@ -32,12 +32,14 @@ lifecycle:
         KIBANA_URL=http://localhost:5601
   
         # Wait until service is ready
-        while [ "$(curl -s -o /dev/null -w '%{http_code}\n' $KIBANA_URL/app/kibana)" != "200" -a \
-        "$(curl -s -o /dev/null -w '%{http_code}\n' http://elasticsearch-master:9200/_cluster/health)" != "200" \
-        ]; do sleep 5; done
+        #while [ "$(curl -s -o /dev/null -w '%{http_code}\n' $KIBANA_URL/app/kibana)" != "200" -a \
+        #"$(curl -s -o /dev/null -w '%{http_code}\n' http://elasticsearch-master:9200/_cluster/health)" != "200" \
+        #]; do sleep 5; done
+        while [ "$(curl -s -o /dev/null -w '%{http_code}\n' http://elasticsearch-master:9200/_cluster/health)" != "200" ]; do sleep 5; done
+        while [ "$(curl -s -o /dev/null -w '%{http_code}\n' $KIBANA_URL/app/kibana)" != "200" ]; do sleep 5; done
   
         # Apply default Index Pattern into Kibana
-        curl  -X POST -v $KIBANA_URL/api/saved_objects/index-pattern/$TEMPLATE_NAME \
+        curl -X POST -v $KIBANA_URL/api/saved_objects/index-pattern/$TEMPLATE_NAME \
         -H 'kbn-xsrf: true' -H 'Content-Type: application/json' \
         -d '{"attributes": {"title": "'$INDEX_PATTERN'", "timeFieldName": "@timestamp"}}'
 

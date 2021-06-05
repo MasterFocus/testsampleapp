@@ -3,16 +3,16 @@
 antiAffinity: "soft"
 
 # Shrink default JVM heap.
-#esJavaOpts: "-Xmx128m -Xms128m"
+esJavaOpts: "-Xmx1g -Xms1g"
 
 # Allocate smaller chunks of memory per pod.
-#resources:
-#  requests:
-#    cpu: "100m"
-#    memory: "512M"
-#  limits:
-#    cpu: "1000m"
-#    memory: "512M"
+resources:
+  requests:
+    cpu: "125m"
+    memory: "256M"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
 
 # Request smaller persistent volumes.
 volumeClaimTemplate:

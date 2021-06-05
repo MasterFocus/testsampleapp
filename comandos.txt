@@ -14,7 +14,7 @@ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 # Iniciando e habilitando ingress
-minikube start
+minikube start --memory=10g
 minikube addons enable ingress
 
 # Instalando Helm v3 - https://helm.sh/docs/intro/install/
@@ -39,7 +39,7 @@ kubectl apply -f kube-yaml/simpleapp.yaml
 kubectl apply -f kube-yaml/simpleapp-svc.yaml
 
 # Criando ingress
-sleep 30
+sleep 40
 kubectl apply -f kube-yaml/challenge-ingress.yaml
 
 # Adicionando hosts em /etc/hosts
@@ -61,7 +61,7 @@ helm install fluentd --version 11.12.0 kokuwa/fluentd-elasticsearch --namespace 
 
 # Instalando Prometheus 2.26.0 - https://artifacthub.io/packages/helm/prometheus-community/prometheus
 #helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-#helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace prova -f helm-values/prometheus.yaml
+helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace prova -f helm-values/prometheus.yaml
 
 # Visualizando recursos
 sleep 90
