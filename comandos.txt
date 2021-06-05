@@ -60,12 +60,13 @@ helm repo add kokuwa https://kokuwaio.github.io/helm-charts
 helm install fluentd --version 11.12.0 kokuwa/fluentd-elasticsearch --namespace prova -f helm-values/fluentd.yaml
 
 # Instalando Prometheus 2.26.0 - https://artifacthub.io/packages/helm/prometheus-community/prometheus
-#helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm install prometheus prometheus-community/prometheus --version 14.1.1 --namespace prova -f helm-values/prometheus.yaml
 
 # Visualizando recursos
 sleep 90
-kubectl get pod,service,deployment,ingress,daemonset -A | grep -vP '^(default|kube)'
+#kubectl get pod,service,deployment,ingress,daemonset -A | grep -vP '^(default|kube)'
+watch -n 1 minikube kubectl -- get pod,service,deployment,ingress,daemonset -n prova
 
 ###############################################
 # ANOTAÇÕES
